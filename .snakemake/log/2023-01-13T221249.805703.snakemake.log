@@ -1,0 +1,4 @@
+The flag 'protected' used in rule samtools_sort is only valid for outputs, not inputs.
+Building DAG of jobs...
+Nothing to be done (all requested files are present and up to date).
+Complete log: .snakemake/log/2023-01-13T221249.805703.snakemake.log
