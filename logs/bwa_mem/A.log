@@ -1,0 +1,6 @@
+[M::bwa_idx_load_from_disk] read 0 ALT contigs
+[M::process] read 25000 sequences (2525000 bp)...
+[M::mem_process_seqs] Processed 25000 reads in 1.134 CPU sec, 0.186 real sec
+[main] Version: 0.7.17-r1188
+[main] CMD: bwa mem -R @RG\tID:A\tSM:A -t 8 data/genome.fa data/samples/A.fastq
+[main] Real time: 0.477 sec; CPU: 1.158 sec

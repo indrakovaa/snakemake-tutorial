@@ -30,7 +30,7 @@ rule bwa_map:
         "data/genome.fa",
         get_bwa_map_input_fastqs
     output:
-        "mapped_reads/{sample}.bam"
+       temp("mapped_reads/{sample}.bam")
     params:
         rg=r"@RG\tID:{sample}\tSM:{sample}" # parameter of the BWA
         #The read group ID will be attached to every read in the output

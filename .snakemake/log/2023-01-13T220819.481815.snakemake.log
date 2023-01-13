@@ -1,0 +1,229 @@
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 10
+Rules claiming more threads will be scaled down.
+Job stats:
+job               count    min threads    max threads
+--------------  -------  -------------  -------------
+all                   1              1              1
+bwa_map               3              8              8
+count_reads           3              1              1
+plot_quals            1              1              1
+samtools_index        3              1              1
+samtools_sort         3              1              1
+variant_call          1              1              1
+total                15              1              8
+
+Select jobs to execute...
+
+[Fri Jan 13 22:08:19 2023]
+rule count_reads:
+    input: data/samples/B.fastq
+    output: counts/B.fastq.count
+    jobid: 2
+    reason: Missing output files: counts/B.fastq.count
+    wildcards: sample=B
+    resources: tmpdir=/tmp
+
+
+[Fri Jan 13 22:08:19 2023]
+rule bwa_map:
+    input: data/genome.fa, data/samples/B.fastq
+    output: mapped_reads/B.bam
+    log: logs/bwa_mem/B.log
+    jobid: 9
+    reason: Missing output files: mapped_reads/B.bam
+    wildcards: sample=B
+    threads: 8
+    resources: tmpdir=/tmp
+
+
+[Fri Jan 13 22:08:19 2023]
+rule count_reads:
+    input: data/samples/C.fastq
+    output: counts/C.fastq.count
+    jobid: 3
+    reason: Missing output files: counts/C.fastq.count
+    wildcards: sample=C
+    resources: tmpdir=/tmp
+
+[Fri Jan 13 22:08:19 2023]
+Finished job 2.
+1 of 15 steps (7%) done
+Select jobs to execute...
+
+[Fri Jan 13 22:08:19 2023]
+rule count_reads:
+    input: data/samples/A.fastq
+    output: counts/A.fastq.count
+    jobid: 1
+    reason: Missing output files: counts/A.fastq.count
+    wildcards: sample=A
+    resources: tmpdir=/tmp
+
+[Fri Jan 13 22:08:20 2023]
+Finished job 3.
+2 of 15 steps (13%) done
+Select jobs to execute...
+[Fri Jan 13 22:08:20 2023]
+Finished job 1.
+3 of 15 steps (20%) done
+[Fri Jan 13 22:08:20 2023]
+Finished job 9.
+4 of 15 steps (27%) done
+
+[Fri Jan 13 22:08:20 2023]
+rule samtools_sort:
+    input: mapped_reads/B.bam
+    output: sorted_reads/B.bam
+    jobid: 8
+    reason: Missing output files: sorted_reads/B.bam; Input files updated by another job: mapped_reads/B.bam
+    wildcards: sample=B
+    resources: tmpdir=/tmp
+
+
+[Fri Jan 13 22:08:20 2023]
+rule bwa_map:
+    input: data/genome.fa, data/samples/C.fastq
+    output: mapped_reads/C.bam
+    log: logs/bwa_mem/C.log
+    jobid: 11
+    reason: Missing output files: mapped_reads/C.bam
+    wildcards: sample=C
+    threads: 8
+    resources: tmpdir=/tmp
+
+[Fri Jan 13 22:08:20 2023]
+Finished job 8.
+5 of 15 steps (33%) done
+Removing temporary output mapped_reads/B.bam.
+Select jobs to execute...
+
+[Fri Jan 13 22:08:20 2023]
+rule samtools_index:
+    input: sorted_reads/B.bam
+    output: sorted_reads/B.bam.bai
+    jobid: 13
+    reason: Missing output files: sorted_reads/B.bam.bai; Input files updated by another job: sorted_reads/B.bam
+    wildcards: sample=B
+    resources: tmpdir=/tmp
+
+[Fri Jan 13 22:08:20 2023]
+Finished job 13.
+6 of 15 steps (40%) done
+Select jobs to execute...
+[Fri Jan 13 22:08:20 2023]
+Finished job 11.
+7 of 15 steps (47%) done
+
+[Fri Jan 13 22:08:20 2023]
+rule samtools_sort:
+    input: mapped_reads/C.bam
+    output: sorted_reads/C.bam
+    jobid: 10
+    reason: Missing output files: sorted_reads/C.bam; Input files updated by another job: mapped_reads/C.bam
+    wildcards: sample=C
+    resources: tmpdir=/tmp
+
+
+[Fri Jan 13 22:08:21 2023]
+rule bwa_map:
+    input: data/genome.fa, data/samples/A.fastq
+    output: mapped_reads/A.bam
+    log: logs/bwa_mem/A.log
+    jobid: 7
+    reason: Missing output files: mapped_reads/A.bam
+    wildcards: sample=A
+    threads: 8
+    resources: tmpdir=/tmp
+
+[Fri Jan 13 22:08:21 2023]
+Finished job 10.
+8 of 15 steps (53%) done
+Removing temporary output mapped_reads/C.bam.
+Select jobs to execute...
+
+[Fri Jan 13 22:08:21 2023]
+rule samtools_index:
+    input: sorted_reads/C.bam
+    output: sorted_reads/C.bam.bai
+    jobid: 14
+    reason: Missing output files: sorted_reads/C.bam.bai; Input files updated by another job: sorted_reads/C.bam
+    wildcards: sample=C
+    resources: tmpdir=/tmp
+
+[Fri Jan 13 22:08:21 2023]
+Finished job 14.
+9 of 15 steps (60%) done
+[Fri Jan 13 22:08:21 2023]
+Finished job 7.
+10 of 15 steps (67%) done
+Select jobs to execute...
+
+[Fri Jan 13 22:08:21 2023]
+rule samtools_sort:
+    input: mapped_reads/A.bam
+    output: sorted_reads/A.bam
+    jobid: 6
+    reason: Missing output files: sorted_reads/A.bam; Input files updated by another job: mapped_reads/A.bam
+    wildcards: sample=A
+    resources: tmpdir=/tmp
+
+[Fri Jan 13 22:08:22 2023]
+Finished job 6.
+11 of 15 steps (73%) done
+Removing temporary output mapped_reads/A.bam.
+Select jobs to execute...
+
+[Fri Jan 13 22:08:22 2023]
+rule samtools_index:
+    input: sorted_reads/A.bam
+    output: sorted_reads/A.bam.bai
+    jobid: 12
+    reason: Missing output files: sorted_reads/A.bam.bai; Input files updated by another job: sorted_reads/A.bam
+    wildcards: sample=A
+    resources: tmpdir=/tmp
+
+[Fri Jan 13 22:08:22 2023]
+Finished job 12.
+12 of 15 steps (80%) done
+Select jobs to execute...
+
+[Fri Jan 13 22:08:22 2023]
+rule variant_call:
+    input: data/genome.fa, sorted_reads/A.bam, sorted_reads/B.bam, sorted_reads/C.bam, sorted_reads/A.bam.bai, sorted_reads/B.bam.bai, sorted_reads/C.bam.bai
+    output: calls/all.vcf
+    log: logs/variant_call/all.log
+    jobid: 5
+    reason: Missing output files: calls/all.vcf; Input files updated by another job: sorted_reads/A.bam, sorted_reads/B.bam, sorted_reads/C.bam.bai, sorted_reads/A.bam.bai, sorted_reads/B.bam.bai, sorted_reads/C.bam
+    resources: tmpdir=/tmp
+
+[Fri Jan 13 22:08:22 2023]
+Finished job 5.
+13 of 15 steps (87%) done
+Select jobs to execute...
+
+[Fri Jan 13 22:08:22 2023]
+rule plot_quals:
+    input: calls/all.vcf
+    output: plots/quals.svg
+    jobid: 4
+    reason: Missing output files: plots/quals.svg; Input files updated by another job: calls/all.vcf
+    resources: tmpdir=/tmp
+
+[Fri Jan 13 22:08:23 2023]
+Finished job 4.
+14 of 15 steps (93%) done
+Select jobs to execute...
+
+[Fri Jan 13 22:08:23 2023]
+localrule all:
+    input: counts/A.fastq.count, counts/B.fastq.count, counts/C.fastq.count, plots/quals.svg
+    jobid: 0
+    reason: Input files updated by another job: counts/A.fastq.count, counts/C.fastq.count, plots/quals.svg, counts/B.fastq.count
+    resources: tmpdir=/tmp
+
+[Fri Jan 13 22:08:23 2023]
+Finished job 0.
+15 of 15 steps (100%) done
+Complete log: .snakemake/log/2023-01-13T220819.481815.snakemake.log
