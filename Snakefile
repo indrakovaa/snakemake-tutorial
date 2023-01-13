@@ -35,8 +35,11 @@ rule bwa_map:
         rg=r"@RG\tID:{sample}\tSM:{sample}" # parameter of the BWA
         #The read group ID will be attached to every read in the output
     threads: 8 #can be usefull to specify, 
+    log:
+        "logs/bwa_mem/{sample}.log"
     shell:
-        "bwa mem -R '{params.rg}' -t {threads} {input} | samtools view -Sb - > {output}"
+        "(bwa mem -R '{params.rg}' -t {threads} {input} | "
+        "samtools view -Sb - > {output}) 2> {log}"
 
 #sorting reads
 rule samtools_sort:
@@ -68,9 +71,11 @@ rule variant_call:
         "calls/all.vcf"
     params:
         mr=config["mutation_rate"]
+    log:
+        "logs/variant_call/{sample}.log"
     shell:
-        "bcftools -P {params.mr} mpileup -f {input.fa} {input.bam} | "
-        "bcftools call -mv - > {output}"
+        "(bcftools -P {params.mr} mpileup -f {input.fa} {input.bam} | "
+        "bcftools call -mv - > {output}) 2> {log}"
 
 # using script in plots
 rule plot_quals:
