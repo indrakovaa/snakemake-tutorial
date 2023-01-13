@@ -31,9 +31,12 @@ rule bwa_map:
         get_bwa_map_input_fastqs
     output:
         "mapped_reads/{sample}.bam"
+    params:
+        rg=r"@RG\tID:{sample}\tSM:{sample}" # parameter of the BWA
+        #The read group ID will be attached to every read in the output
     threads: 8 #can be usefull to specify, 
     shell:
-        "bwa mem -t {threads} {input} | samtools view -Sb - > {output}"
+        "bwa mem -R {params.rg} -t {threads} {input} | samtools view -Sb - > {output}"
 
 #sorting reads
 rule samtools_sort:
