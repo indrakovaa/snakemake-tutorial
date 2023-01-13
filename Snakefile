@@ -1,13 +1,15 @@
 # Define variable for input function expand
-# Better is to use config file
-# learn to use global wildcards
 SAMPLES = ["A", "B", "C"]
+# Better is to use config file
+configfile: "config.yaml" # snakemake stores in dictionary config
+# learn to use global wildcards
+
 
 # Here we can have specified target files (files we want to be created)
 # as an input files
 rule all:
     input:
-        expand("counts/{sample}.fastq.count", sample=SAMPLES),
+        expand("counts/{sample}.fastq.count", sample=SAMPLES), # must create variable SAMPLES
         "plots/quals.svg"
 
 ## Workflow
@@ -27,7 +29,7 @@ rule bwa_map:
         "mapped_reads/{sample}.bam"
     threads: 8 #can be usefull to specify, 
     shell:
-        "bwa mem {threads} {input} | samtools view -Sb - > {output}"
+        "bwa mem -t {threads} {input} | samtools view -Sb - > {output}"
 
 #sorting reads
 rule samtools_sort:
@@ -52,8 +54,9 @@ rule samtools_index:
 rule variant_call:
     input:
         fa="data/genome.fa",
-        bam=expand("sorted_reads/{sample}.bam", sample=SAMPLES), # must create variable SAMPLES
-        bai=expand("sorted_reads/{sample}.bam.bai", sample=SAMPLES)
+        bam=expand("sorted_reads/{sample}.bam", sample=config["samples"]), 
+        bai=expand("sorted_reads/{sample}.bam.bai", sample=config["samples"])
+        #snakemake reads from dictionary config
     output:
         "calls/all.vcf"
     shell:
