@@ -72,7 +72,8 @@ rule variant_call:
     params:
         mr=config["mutation_rate"]
     log:
-        "logs/variant_call/{sample}.log"
+        "logs/variant_call/all.log" #all samples mapped to one file, I can't 
+        #have log for each sample???
     shell:
         "(bcftools -P {params.mr} mpileup -f {input.fa} {input.bam} | "
         "bcftools call -mv - > {output}) 2> {log}"
