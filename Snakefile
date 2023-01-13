@@ -75,8 +75,8 @@ rule variant_call:
         "logs/variant_call/all.log" #all samples mapped to one file, I can't 
         #have log for each sample???
     shell:
-        "(bcftools -P {params.mr} mpileup -f {input.fa} {input.bam} | "
-        "bcftools call -mv - > {output}) 2> {log}"
+        "(bcftools mpileup -f {input.fa} {input.bam} | "
+        "bcftools call -mv -P {params.mr} - > {output}) 2> {log}"
 
 # using script in plots
 rule plot_quals:
