@@ -36,7 +36,7 @@ rule bwa_map:
         #The read group ID will be attached to every read in the output
     threads: 8 #can be usefull to specify, 
     shell:
-        "bwa mem -R {params.rg} -t {threads} {input} | samtools view -Sb - > {output}"
+        "bwa mem -R '{params.rg}' -t {threads} {input} | samtools view -Sb - > {output}"
 
 #sorting reads
 rule samtools_sort:
@@ -66,8 +66,10 @@ rule variant_call:
         #snakemake reads from dictionary config
     output:
         "calls/all.vcf"
+    params:
+        mr=config["mutation_rate"]
     shell:
-        "bcftools mpileup -f {input.fa} {input.bam} | "
+        "bcftools -P {params.mr} mpileup -f {input.fa} {input.bam} | "
         "bcftools call -mv - > {output}"
 
 # using script in plots
