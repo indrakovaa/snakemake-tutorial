@@ -12,6 +12,10 @@ rule all:
         expand("counts/{sample}.fastq.count", sample=SAMPLES), # must create variable SAMPLES
         "plots/quals.svg"
 
+# define function to define inputs in later stage of execution of Snakefile
+def get_bwa_map_input_fastqs(wildcards): # takes wildcards object
+    return config["samples"][wildcards.sample] #access it via attributes
+
 ## Workflow
 # counting reads
 rule count_reads:
@@ -24,7 +28,7 @@ rule count_reads:
 rule bwa_map:
     input:
         "data/genome.fa",
-        "data/samples/{sample}.fastq"
+        get_bwa_map_input_fastqs
     output:
         "mapped_reads/{sample}.bam"
     threads: 8 #can be usefull to specify, 
